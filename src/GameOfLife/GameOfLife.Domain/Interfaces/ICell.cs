@@ -1,0 +1,15 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GameOfLife.Domain.Interfaces
+{
+    public interface ICell
+    {
+        bool IsAlive { get; set; }
+        int X { get; }
+        int Y { get; }
+    }
+}
