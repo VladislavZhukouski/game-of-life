@@ -9,14 +9,14 @@ namespace GameOfLife.Domain.Entities
 {
     public class Cell: ICell
     {
-        public Cell(int x, int y)
+        public Cell(int i, int j)
         {
-            X = x;
-            Y = y;
+            I = i;
+            J = j;
         }
         public bool IsAlive { get; set; }
-        public int X { get; private set; }
-        public int Y { get; private set; }
+        public int I { get; private set; }
+        public int J { get; private set; }
 
 
         public ICell Revive()

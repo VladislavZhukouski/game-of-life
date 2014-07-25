@@ -62,7 +62,7 @@ namespace GameOfLife.Domain
         {
             foreach(var item in changedCells)
             {
-                field[item.X, item.Y].IsAlive = item.IsAlive;
+                field[item.I, item.J].IsAlive = item.IsAlive;
             }
         }
 

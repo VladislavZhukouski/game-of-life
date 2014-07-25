@@ -9,8 +9,8 @@ namespace GameOfLife.Domain.Interfaces
     public interface ICell
     {
         bool IsAlive { get; set; }
-        int X { get; }
-        int Y { get; }
+        int I { get; }
+        int J { get; }
         ICell Revive();
         ICell Kill();
     }
