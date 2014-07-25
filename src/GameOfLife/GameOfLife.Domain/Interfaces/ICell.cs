@@ -11,5 +11,7 @@ namespace GameOfLife.Domain.Interfaces
         bool IsAlive { get; set; }
         int X { get; }
         int Y { get; }
+        ICell Revive();
+        ICell Kill();
     }
 }

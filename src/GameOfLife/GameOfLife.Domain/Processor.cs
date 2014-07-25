@@ -12,10 +12,12 @@ namespace GameOfLife.Domain
     public class Processor
     {
         private Field field;
+        private IList<ICell> changedCells;
 
         public Processor(int m, int n)
         {
             field = new Field(m, n);
+            changedCells = new List<ICell>();
         }
 
         public delegate void CellProcessedEventHandler(object sender, CellProcessedEventArgs e);
@@ -38,12 +40,29 @@ namespace GameOfLife.Domain
             if (!cell.IsAlive)
             {
                 if (aliveNeighboorsCount == 3)
-                    cell.IsAlive = true;
+                    changedCells.Add(cell.Revive());
             }
             else
             {
                 if (!(aliveNeighboorsCount == 2 || aliveNeighboorsCount == 3))
-                    cell.IsAlive = false;
+                    changedCells.Add(cell.Kill());
+            }
+        }
+
+        private void ProcessCells()
+        {
+            for (var i = 0; i < field.M; i++)
+                for (var j = 0; j < field.N; j++)
+                {
+                    ProcessCell(i, j);
+                }
+        }
+
+        private void RemakeField()
+        {
+            foreach(var item in changedCells)
+            {
+                field[item.X, item.Y].IsAlive = item.IsAlive;
             }
         }
 

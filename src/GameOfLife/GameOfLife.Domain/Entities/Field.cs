@@ -26,6 +26,10 @@ namespace GameOfLife.Domain.Entities
             {
                 return field[i * 10 + j];
             }
+            set
+            {
+                field[i * 10 + j] = value;
+            }
         }
 
         private void InitializeField(int m, int n)

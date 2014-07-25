@@ -17,5 +17,18 @@ namespace GameOfLife.Domain.Entities
         public bool IsAlive { get; set; }
         public int X { get; private set; }
         public int Y { get; private set; }
+
+
+        public ICell Revive()
+        {
+            IsAlive = true;
+            return this;
+        }
+
+        public ICell Kill()
+        {
+            IsAlive = false;
+            return this;
+        }
     }
 }
