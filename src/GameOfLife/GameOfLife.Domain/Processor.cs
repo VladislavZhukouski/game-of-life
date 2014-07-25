@@ -13,49 +13,56 @@ namespace GameOfLife.Domain
     {
         private Field field;
         private IList<ICell> changedCells;
+        private NeigboorCellsProcessor neigboorCellsProcessor;
 
         public Processor(int m, int n)
         {
             field = new Field(m, n);
             changedCells = new List<ICell>();
+            neigboorCellsProcessor = new NeigboorCellsProcessor(field);
         }
 
         public delegate void CellProcessedEventHandler(object sender, CellProcessedEventArgs e);
 
         public event CellProcessedEventHandler CellProcessedEvent;
 
-        public void Process()
+        public Field Field
+        {
+            get
+            {
+                return field;
+            }
+        }
+
+        public void ProcessField()
         {
             for (var i = 0; i < field.M; i++)
                 for (var j = 0; j < field.N; j++)
                 {
                     ProcessCell(i, j);
                 }
+            RemakeField();
         }
 
-        public void ProcessCell(int x, int y)
+        public void SetAliveCell(int i, int j)
+        {
+            field[i, j].IsAlive = true;
+        }
+
+        private void ProcessCell(int x, int y)
         {
             var cell = field[x, y];
-            var aliveNeighboorsCount = AliveNeighboorsCount(cell);
+            var aliveNeighboorsCount = AliveNeighboorCellsCount(cell);
             if (!cell.IsAlive)
             {
                 if (aliveNeighboorsCount == 3)
-                    changedCells.Add(cell.Revive());
+                    changedCells.Add(new Cell(cell.I, cell.J, true));
             }
             else
             {
                 if (!(aliveNeighboorsCount == 2 || aliveNeighboorsCount == 3))
-                    changedCells.Add(cell.Kill());
+                    changedCells.Add(new Cell(cell.I, cell.J));
             }
-        }
-
-        private void ProcessCells()
-        {
-            for (var i = 0; i < field.M; i++)
-                for (var j = 0; j < field.N; j++)
-                {
-                    ProcessCell(i, j);
-                }
         }
 
         private void RemakeField()
@@ -64,11 +71,12 @@ namespace GameOfLife.Domain
             {
                 field[item.I, item.J].IsAlive = item.IsAlive;
             }
+            changedCells.Clear();
         }
 
-        public int AliveNeighboorsCount(ICell cell)
+        private int AliveNeighboorCellsCount(ICell cell)
         {
-            throw new NotImplementedException();
+            return neigboorCellsProcessor.GetNeigboorCells(cell).Count(x => x.IsAlive);
         }
 
         private void RaiseCellProcessedEvent(ICell processedCell)

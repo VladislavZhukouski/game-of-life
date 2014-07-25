@@ -14,21 +14,18 @@ namespace GameOfLife.Domain.Entities
             I = i;
             J = j;
         }
+
+        public Cell(int i, int j, bool isAlive)
+        {
+            I = i;
+            J = j;
+            IsAlive = isAlive;
+        }
+
         public bool IsAlive { get; set; }
+
         public int I { get; private set; }
+
         public int J { get; private set; }
-
-
-        public ICell Revive()
-        {
-            IsAlive = true;
-            return this;
-        }
-
-        public ICell Kill()
-        {
-            IsAlive = false;
-            return this;
-        }
     }
 }

@@ -24,11 +24,11 @@ namespace GameOfLife.Domain.Entities
         {
             get
             {
-                return field[i * 10 + j];
+                return field[i * N + j];
             }
             set
             {
-                field[i * 10 + j] = value;
+                field[i * N + j] = value;
             }
         }
 
@@ -44,6 +44,22 @@ namespace GameOfLife.Domain.Entities
                 }
         }
 
+        public override string ToString()
+        {
+            var builder = new StringBuilder();
+            for (var i = 0; i < M; i++)
+            {
+                for (var j = 0; j < N; j++)
+                {
+                    if (this[i, j].IsAlive)
+                        builder.Append(1);
+                    else
+                        builder.Append(0);
+                }
+                builder.AppendLine(String.Empty);
+            }
+            return builder.ToString();
+        }
 
     }
 }

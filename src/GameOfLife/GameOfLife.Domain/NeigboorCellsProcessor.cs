@@ -62,7 +62,7 @@ namespace GameOfLife.Domain
 
         private ICell GetRightCell(ICell cell)
         {
-            if (cell.J == field.N)
+            if (cell.J == field.N - 1)
                 return field[cell.I, 0];
             return field[cell.I, cell.J + 1];
         }
