@@ -11,21 +11,12 @@ namespace GameOfLife.Domain
 {
     public class Processor
     {
+
+        #region Fields and properties
+
         private Field field;
         private IList<ICell> changedCells;
         private NeigboorCellsProcessor neigboorCellsProcessor;
-
-        public Processor(int m, int n)
-        {
-            field = new Field(m, n);
-            changedCells = new List<ICell>();
-            neigboorCellsProcessor = new NeigboorCellsProcessor(field);
-        }
-
-        public delegate void CellProcessedEventHandler(object sender, CellProcessedEventArgs e);
-
-        public event CellProcessedEventHandler CellProcessedEvent;
-
         public Field Field
         {
             get
@@ -34,7 +25,44 @@ namespace GameOfLife.Domain
             }
         }
 
-        public IEnumerable<ICell> ProcessField()
+        #endregion
+
+        public Processor(int m, int n)
+        {
+            field = new Field(m, n);
+            changedCells = new List<ICell>();
+            neigboorCellsProcessor = new NeigboorCellsProcessor(field);
+        }
+
+        #region Eventing
+
+        public delegate void CellProcessedEventHandler(object sender, CellProcessedEventArgs e);
+        public delegate void FieldProcessedEventHandler(object sender, FieldProcessedEventArgs e);
+
+        public event CellProcessedEventHandler CellProcessed;
+        public event FieldProcessedEventHandler FieldProcessed;
+
+        private void RaiseCellProcessedEvent(ICell processedCell)
+        {
+            if (CellProcessed != null)
+            {
+                CellProcessed(this, new CellProcessedEventArgs(processedCell));
+            }
+        }
+
+        private void RaiseFieldProcessedEvent(IEnumerable<ICell> changedCells)
+        {
+            if (FieldProcessed != null)
+            {
+                FieldProcessed(this, new FieldProcessedEventArgs(changedCells));
+            }
+        }
+
+        #endregion
+
+        #region Field processing
+
+        public void ProcessField()
         {
             RemakeField();
             for (var i = 0; i < field.M; i++)
@@ -42,15 +70,10 @@ namespace GameOfLife.Domain
                 {
                     ProcessCell(i, j);
                 }
-            return changedCells;
+            RaiseFieldProcessedEvent(changedCells);
         }
 
-        public void SetAliveCell(int i, int j)
-        {
-            field[i, j].IsAlive = true;
-        }
-
-        private void ProcessCell(int i, int j)
+        public void ProcessCell(int i, int j)
         {
             var cell = field[i, j];
             var aliveNeighboorsCount = AliveNeighboorCellsCount(cell);
@@ -68,11 +91,11 @@ namespace GameOfLife.Domain
 
         private void RemakeField()
         {
-            changedCells.Clear();
-            foreach(var item in changedCells)
+            foreach (var item in changedCells)
             {
                 field[item.I, item.J].IsAlive = item.IsAlive;
             }
+            changedCells.Clear();
         }
 
         private int AliveNeighboorCellsCount(ICell cell)
@@ -80,12 +103,6 @@ namespace GameOfLife.Domain
             return neigboorCellsProcessor.GetNeigboorCells(cell).Count(x => x.IsAlive);
         }
 
-        private void RaiseCellProcessedEvent(ICell processedCell)
-        {
-            if (CellProcessedEvent != null)
-            {
-                CellProcessedEvent(this, new CellProcessedEventArgs(processedCell));
-            }
-        }
+        #endregion
     }
 }

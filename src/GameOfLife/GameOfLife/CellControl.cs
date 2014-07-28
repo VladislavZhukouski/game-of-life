@@ -18,7 +18,7 @@ namespace GameOfLife
         public CellControl(ICell cell):base()
         {
             this.Cell = cell;
-            this.changeColorDelegate = MakeAlive;
+            this.changeColorDelegate = Rise;
             InitializeCell();
         }
 
@@ -36,17 +36,16 @@ namespace GameOfLife
             changeColorDelegate.Invoke();
         }
 
-        private void MakeAlive()
+        private void Rise()
         {
-
             this.BackColor = Settings.ALIVE_CELL_COLOR;
-            this.changeColorDelegate = MakeDead;
+            this.changeColorDelegate = Die;
         }
 
-        private void MakeDead()
+        private void Die()
         {
             this.BackColor = Settings.DEAD_CELL_COLOR;
-            this.changeColorDelegate = MakeAlive;
+            this.changeColorDelegate = Rise;
         }
     }
 }

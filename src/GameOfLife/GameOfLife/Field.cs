@@ -63,8 +63,7 @@ namespace GameOfLife
         void cellControl_Click(object sender, EventArgs e)
         {
             var cellControl = (CellControl)sender;
-            processor.SetAliveCell(cellControl.Cell.I, cellControl.Cell.J);
-            (cellControl).ChangeColor();
+            
         }
     }
 }
