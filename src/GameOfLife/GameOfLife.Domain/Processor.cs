@@ -34,14 +34,15 @@ namespace GameOfLife.Domain
             }
         }
 
-        public void ProcessField()
+        public IEnumerable<ICell> ProcessField()
         {
+            RemakeField();
             for (var i = 0; i < field.M; i++)
                 for (var j = 0; j < field.N; j++)
                 {
                     ProcessCell(i, j);
                 }
-            RemakeField();
+            return changedCells;
         }
 
         public void SetAliveCell(int i, int j)
@@ -49,9 +50,9 @@ namespace GameOfLife.Domain
             field[i, j].IsAlive = true;
         }
 
-        private void ProcessCell(int x, int y)
+        private void ProcessCell(int i, int j)
         {
-            var cell = field[x, y];
+            var cell = field[i, j];
             var aliveNeighboorsCount = AliveNeighboorCellsCount(cell);
             if (!cell.IsAlive)
             {
@@ -67,11 +68,11 @@ namespace GameOfLife.Domain
 
         private void RemakeField()
         {
+            changedCells.Clear();
             foreach(var item in changedCells)
             {
                 field[item.I, item.J].IsAlive = item.IsAlive;
             }
-            changedCells.Clear();
         }
 
         private int AliveNeighboorCellsCount(ICell cell)

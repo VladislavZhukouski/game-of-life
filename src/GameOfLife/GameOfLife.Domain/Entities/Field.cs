@@ -19,6 +19,13 @@ namespace GameOfLife.Domain.Entities
 
         public int M { get; private set; }
         public int N { get; private set; }
+        public IEnumerable<ICell> Cells
+        {
+            get
+            {
+                return field;
+            }
+        }
 
         public ICell this[int i, int j]
         {
@@ -60,6 +67,5 @@ namespace GameOfLife.Domain.Entities
             }
             return builder.ToString();
         }
-
     }
 }
