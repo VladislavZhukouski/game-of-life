@@ -15,6 +15,13 @@ namespace GameOfLife
         private delegate void ChangeColorDelegate();
         private ChangeColorDelegate changeColorDelegate;
 
+        public CellControl()
+            : base()
+        {
+            this.changeColorDelegate = Rise;
+            InitializeCell();
+        }
+
         public CellControl(ICell cell):base()
         {
             this.Cell = cell;

@@ -22,10 +22,17 @@ namespace GameOfLife.Domain.Entities
             IsAlive = isAlive;
         }
 
+        private void GenerateId()
+        {
+            Id = 1 / 2 * (I + J) * (I + J + 1) + J;
+        }
+
         public bool IsAlive { get; set; }
 
         public int I { get; private set; }
 
         public int J { get; private set; }
+
+        public int Id { get; private set; }
     }
 }

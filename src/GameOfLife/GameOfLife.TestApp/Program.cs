@@ -18,13 +18,6 @@ namespace GameOfLife.TestApp
             //Console.WriteLine(processor.Field.ToString());
             //Console.ReadKey();
             //Console.WriteLine();
-            processor.SetAliveCell(20, 20);
-            processor.SetAliveCell(20, 21);
-            processor.SetAliveCell(20, 22);
-            processor.SetAliveCell(21, 20);
-            processor.SetAliveCell(21, 22);
-            processor.SetAliveCell(22, 20);
-            processor.SetAliveCell(22, 22);
             Console.WriteLine(processor.Field.ToString());
             Console.ReadKey();
             //processor.SetAliveCell(1, 1);

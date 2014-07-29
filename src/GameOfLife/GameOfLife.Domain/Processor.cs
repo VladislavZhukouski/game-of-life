@@ -68,14 +68,13 @@ namespace GameOfLife.Domain
             for (var i = 0; i < field.M; i++)
                 for (var j = 0; j < field.N; j++)
                 {
-                    ProcessCell(i, j);
+                    ProcessCell(field[i, j]);
                 }
             RaiseFieldProcessedEvent(changedCells);
         }
 
-        public void ProcessCell(int i, int j)
+        private void ProcessCell(ICell cell)
         {
-            var cell = field[i, j];
             var aliveNeighboorsCount = AliveNeighboorCellsCount(cell);
             if (!cell.IsAlive)
             {
@@ -87,6 +86,12 @@ namespace GameOfLife.Domain
                 if (!(aliveNeighboorsCount == 2 || aliveNeighboorsCount == 3))
                     changedCells.Add(new Cell(cell.I, cell.J));
             }
+        }
+
+        public void ProcessOnlyCell(ICell cell)
+        {
+            ProcessCell(cell);
+            RaiseCellProcessedEvent(cell);
         }
 
         private void RemakeField()

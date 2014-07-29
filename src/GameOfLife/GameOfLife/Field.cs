@@ -13,6 +13,7 @@ namespace GameOfLife
 {
     public partial class Field : Form
     {
+        private Dictionary<int, CellControl> cellControls;
         private IList<CellControl> cells;
         private int m;
         private int n;
@@ -31,6 +32,18 @@ namespace GameOfLife
         private void InitializeProcessor()
         {
             processor = new Processor(this.m, this.n);
+            processor.FieldProcessed += processor_FieldProcessed;
+            processor.CellProcessed += processor_CellProcessed;
+        }
+
+        void processor_CellProcessed(object sender, Domain.EventArgs.CellProcessedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void processor_FieldProcessed(object sender, Domain.EventArgs.FieldProcessedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void InitializeField()
@@ -58,12 +71,20 @@ namespace GameOfLife
             {
                 this.Controls.Add(item);
             }
+
+            //
+            cellControls = new Dictionary<int, CellControl>();
+            foreach (var item in processor.Field.Cells)
+            {
+                cellControls.Add(item.Id, new CellControl());
+            }
         }
 
         void cellControl_Click(object sender, EventArgs e)
         {
             var cellControl = (CellControl)sender;
-            
+            var cell = cellControl.Cell;
+            processor.ProcessOnlyCell(cell);
         }
     }
 }
