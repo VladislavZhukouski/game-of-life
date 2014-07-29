@@ -10,35 +10,25 @@ namespace GameOfLife
 {
     public class CellControl: Label
     {
-        public ICell Cell { get; private set; }
-
         private delegate void ChangeColorDelegate();
         private ChangeColorDelegate changeColorDelegate;
 
-        public CellControl()
-            : base()
-        {
-            this.changeColorDelegate = Rise;
-            InitializeCell();
-        }
-
         public CellControl(ICell cell):base()
         {
-            this.Cell = cell;
             this.changeColorDelegate = Rise;
-            InitializeCell();
+            InitializeCell(cell.I, cell.J);
         }
 
-        private void InitializeCell()
+        private void InitializeCell(int i, int j)
         {
             this.Text = String.Empty;
             this.BackColor = Settings.DEAD_CELL_COLOR;
             this.BorderStyle = BorderStyle.FixedSingle;
-            this.Location = new System.Drawing.Point(Settings.CELL_SIZE * Cell.J, Settings.CELL_SIZE * Cell.I);
+            this.Location = new System.Drawing.Point(Settings.CELL_SIZE * j, Settings.CELL_SIZE * i);
             this.Size = new System.Drawing.Size(Settings.CELL_SIZE, Settings.CELL_SIZE);
         }
 
-        public void ChangeColor()
+        public void Act()
         {
             changeColorDelegate.Invoke();
         }

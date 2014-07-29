@@ -88,9 +88,10 @@ namespace GameOfLife.Domain
             }
         }
 
-        public void ProcessOnlyCell(ICell cell)
+        public void ManuallyProcessCell(int id)
         {
-            ProcessCell(cell);
+            var cell = field.Cells.Single(x => x.Id == id);
+            cell.IsAlive = !(cell.IsAlive);
             RaiseCellProcessedEvent(cell);
         }
 

@@ -13,18 +13,17 @@ namespace GameOfLife.Domain.Entities
         {
             I = i;
             J = j;
+            GenerateId();
         }
 
-        public Cell(int i, int j, bool isAlive)
+        public Cell(int i, int j, bool isAlive): this(i, j)
         {
-            I = i;
-            J = j;
             IsAlive = isAlive;
         }
 
         private void GenerateId()
         {
-            Id = 1 / 2 * (I + J) * (I + J + 1) + J;
+            Id = (I + J) * (I + J + 1) / 2 + J;
         }
 
         public bool IsAlive { get; set; }

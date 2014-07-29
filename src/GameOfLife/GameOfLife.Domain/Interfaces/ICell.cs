@@ -11,6 +11,6 @@ namespace GameOfLife.Domain.Interfaces
         bool IsAlive { get; set; }
         int I { get; }
         int J { get; }
-        int Id { get; set; }
+        int Id { get; }
     }
 }
