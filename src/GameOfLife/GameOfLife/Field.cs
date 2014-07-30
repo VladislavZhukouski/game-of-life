@@ -25,6 +25,11 @@ namespace GameOfLife
         {
             this.m = m;
             this.n = n;
+            InitializeGame();
+        }
+
+        private void InitializeGame()
+        {
             InitializeComponent();
             InitializeProcessor();
             InitializeField();
@@ -49,13 +54,6 @@ namespace GameOfLife
             this.Size = new System.Drawing.Size(Settings.CELL_SIZE * n + 16, Settings.CELL_SIZE * m + 38 + 40);
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.StartPosition = FormStartPosition.WindowsDefaultLocation;
-            this.FormClosing += Field_FormClosing;
-        }
-
-        void Field_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (drawingThread != null)
-                drawingThread.Abort();
         }
 
         private void InitializeCellControls()
@@ -92,8 +90,8 @@ namespace GameOfLife
             startButton.Size = new System.Drawing.Size(50, 26);
             startButton.Location = new System.Drawing.Point(6, this.Height - 70);
             startButton.Click += startButton_Click;
+            startButton.Visible = true;
             this.Controls.Add(startButton);
-
 
             var stopButton = new Button();
             stopButton.BackColor = Color.White;
@@ -102,16 +100,34 @@ namespace GameOfLife
             stopButton.Size = new System.Drawing.Size(50, 25);
             stopButton.Location = new System.Drawing.Point(this.Width - 72, this.Height - 70);
             stopButton.Click += stopButton_Click;
+            stopButton.Visible = true;
             this.Controls.Add(stopButton);
+
+            var clearButton = new Button();
+            clearButton.BackColor = Color.White;
+            clearButton.ForeColor = Color.Black;
+            clearButton.Text = "Clear";
+            clearButton.Size = new System.Drawing.Size(50, 25);
+            clearButton.Location = new System.Drawing.Point(this.Width - 72 + 55, this.Height - 70);
+            clearButton.Click += clearButton_Click;
+            clearButton.Visible = true;
+            this.Controls.Add(clearButton);
         }
 
-        void stopButton_Click(object sender, EventArgs e)
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            if (drawingThread != null)
+                drawingThread.Abort();
+            InitializeGame();
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
         {
             if (drawingThread != null)
                 drawingThread.Abort();
         }
 
-        void startButton_Click(object sender, EventArgs e)
+        private void startButton_Click(object sender, EventArgs e)
         {
             drawingThread = new Thread(
                 () =>
@@ -119,24 +135,25 @@ namespace GameOfLife
                     while (true)
                     {
                         processor.ProcessField();
-                        Thread.Sleep(100);
+                        Thread.Sleep(50);
                     }
                 });
+            drawingThread.IsBackground = true;
             drawingThread.Start();
         }
 
-        void processor_CellProcessed(object sender, Domain.EventArgs.CellProcessedEventArgs e)
+        private void processor_CellProcessed(object sender, Domain.EventArgs.CellProcessedEventArgs e)
         {
             cellControls[e.Cell.Id].Act();
         }
 
-        void processor_FieldProcessed(object sender, Domain.EventArgs.FieldProcessedEventArgs e)
+        private void processor_FieldProcessed(object sender, Domain.EventArgs.FieldProcessedEventArgs e)
         {
             foreach(var item in e.ChangedCells.Select(x=>x.Id))
                 cellControls[item].Act();
         }
 
-        void cellControl_Click(object sender, EventArgs e)
+        private void cellControl_Click(object sender, EventArgs e)
         {
             var cellControl = (CellControl)sender;
             processor.ManuallyProcessCell(cellControls.Single(x=> x.Value == cellControl).Key);
