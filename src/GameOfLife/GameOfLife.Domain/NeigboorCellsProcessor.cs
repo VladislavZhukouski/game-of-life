@@ -1,5 +1,4 @@
 ﻿using GameOfLife.Domain.Entities;
-using GameOfLife.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +16,9 @@ namespace GameOfLife.Domain
             this.field = field;
         }
 
-        public IList<ICell> GetNeigboorCells(ICell cell)
+        public IList<Cell> GetNeigboorCells(Cell cell)
         {
-            var result = new List<ICell>();
+            var result = new List<Cell>();
             result.Add(GetLeftTopCell(cell));
             result.Add(GetTopCell(cell));
             result.Add(GetRightTopCell(cell));
@@ -31,7 +30,7 @@ namespace GameOfLife.Domain
             return result;
         }
 
-        private ICell GetLeftTopCell(ICell cell)
+        private Cell GetLeftTopCell(Cell cell)
         {
             if (cell.I == 0 && cell.J == 0)
                 return field[field.M - 1, field.N - 1];
@@ -42,14 +41,14 @@ namespace GameOfLife.Domain
             return field[cell.I - 1, cell.J - 1];
         }
 
-        private ICell GetTopCell(ICell cell)
+        private Cell GetTopCell(Cell cell)
         {
             if (cell.I == 0)
                 return field[field.M - 1, cell.J];
             return field[cell.I - 1, cell.J];
         }
 
-        private ICell GetRightTopCell(ICell cell)
+        private Cell GetRightTopCell(Cell cell)
         {
             if (cell.I == 0 && cell.J == field.N - 1)
                 return field[field.M - 1, 0];
@@ -60,14 +59,14 @@ namespace GameOfLife.Domain
             return field[cell.I - 1, cell.J + 1];
         }
 
-        private ICell GetRightCell(ICell cell)
+        private Cell GetRightCell(Cell cell)
         {
             if (cell.J == field.N - 1)
                 return field[cell.I, 0];
             return field[cell.I, cell.J + 1];
         }
 
-        private ICell GetRightBottomCell(ICell cell)
+        private Cell GetRightBottomCell(Cell cell)
         {
             if (cell.I == field.M - 1 && cell.J == field.N - 1)
                 return field[0, 0];
@@ -78,14 +77,14 @@ namespace GameOfLife.Domain
             return field[cell.I + 1, cell.J + 1];
         }
 
-        private ICell GetBottomCell(ICell cell)
+        private Cell GetBottomCell(Cell cell)
         {
             if (cell.I == field.M - 1)
                 return field[0, cell.J];
             return field[cell.I + 1, cell.J];
         }
 
-        private ICell GetLeftBottomCell(ICell cell)
+        private Cell GetLeftBottomCell(Cell cell)
         {
             if (cell.I == field.M - 1 && cell.J == 0)
                 return field[0, field.N - 1];
@@ -96,7 +95,7 @@ namespace GameOfLife.Domain
             return field[cell.I + 1, cell.J - 1];
         }
 
-        private ICell GetLeftCell(ICell cell)
+        private Cell GetLeftCell(Cell cell)
         {
             if (cell.J == 0)
                 return field[cell.I, field.N - 1];

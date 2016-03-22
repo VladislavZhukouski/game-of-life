@@ -1,5 +1,4 @@
-﻿using GameOfLife.Domain.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameOfLife.Domain.Entities
 {
-    public class Cell: ICell
+    public class Cell
     {
         public Cell(int i, int j)
         {

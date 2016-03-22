@@ -1,6 +1,5 @@
 ﻿using GameOfLife.Domain.Entities;
 using GameOfLife.Domain.EventArgs;
-using GameOfLife.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +14,7 @@ namespace GameOfLife.Domain
         #region Fields and properties
 
         private Field field;
-        private IList<ICell> changedCells;
+        private List<Cell> changedCells;
         private NeigboorCellsProcessor neigboorCellsProcessor;
         public Field Field
         {
@@ -30,7 +29,7 @@ namespace GameOfLife.Domain
         public Processor(int m, int n)
         {
             field = new Field(m, n);
-            changedCells = new List<ICell>();
+            changedCells = new List<Cell>();
             neigboorCellsProcessor = new NeigboorCellsProcessor(field);
         }
 
@@ -42,7 +41,7 @@ namespace GameOfLife.Domain
         public event CellProcessedEventHandler CellProcessed;
         public event FieldProcessedEventHandler FieldProcessed;
 
-        private void RaiseCellProcessedEvent(ICell processedCell)
+        private void RaiseCellProcessedEvent(Cell processedCell)
         {
             if (CellProcessed != null)
             {
@@ -50,7 +49,7 @@ namespace GameOfLife.Domain
             }
         }
 
-        private void RaiseFieldProcessedEvent(IEnumerable<ICell> changedCells)
+        private void RaiseFieldProcessedEvent(IEnumerable<Cell> changedCells)
         {
             if (FieldProcessed != null)
             {
@@ -73,7 +72,7 @@ namespace GameOfLife.Domain
             RaiseFieldProcessedEvent(changedCells);
         }
 
-        private void ProcessCell(ICell cell)
+        private void ProcessCell(Cell cell)
         {
             var aliveNeighboorsCount = AliveNeighboorCellsCount(cell);
             if (!cell.IsAlive)
@@ -104,7 +103,7 @@ namespace GameOfLife.Domain
             changedCells.Clear();
         }
 
-        private int AliveNeighboorCellsCount(ICell cell)
+        private int AliveNeighboorCellsCount(Cell cell)
         {
             return neigboorCellsProcessor.GetNeigboorCells(cell).Count(x => x.IsAlive);
         }

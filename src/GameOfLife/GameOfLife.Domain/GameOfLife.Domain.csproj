@@ -43,7 +43,6 @@
     <Compile Include="Entities\Field.cs" />
     <Compile Include="EventArgs\CellProcessedEventArgs.cs" />
     <Compile Include="EventArgs\FieldProcessedEventArgs.cs" />
-    <Compile Include="Interfaces\ICell.cs" />
     <Compile Include="NeigboorCellsProcessor.cs" />
     <Compile Include="Processor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

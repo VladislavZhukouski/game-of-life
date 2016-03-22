@@ -1,5 +1,4 @@
-﻿using GameOfLife.Domain.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +8,7 @@ namespace GameOfLife.Domain.Entities
 {
     public class Field
     {
-        private IList<ICell> field;
+        private List<Cell> field;
 
 
         public Field(int m, int n)
@@ -19,7 +18,8 @@ namespace GameOfLife.Domain.Entities
 
         public int M { get; private set; }
         public int N { get; private set; }
-        public IEnumerable<ICell> Cells
+
+        public List<Cell> Cells
         {
             get
             {
@@ -27,7 +27,7 @@ namespace GameOfLife.Domain.Entities
             }
         }
 
-        public ICell this[int i, int j]
+        public Cell this[int i, int j]
         {
             get
             {
@@ -43,7 +43,7 @@ namespace GameOfLife.Domain.Entities
         {
             M = m;
             N = n;
-            field = new List<ICell>();
+            field = new List<Cell>();
             for(var i = 0; i < M; i++)
                 for (var j = 0; j < N; j++)
                 {

@@ -110,7 +110,7 @@ namespace GameOfLife
             clearButton.ForeColor = Color.Black;
             clearButton.Text = "Clear";
             clearButton.Size = new System.Drawing.Size(50, 25);
-            clearButton.Location = new System.Drawing.Point(this.Width - 72 + 55, this.Height - 70);
+            clearButton.Location = new System.Drawing.Point(this.Width - 72 - 55, this.Height - 70);
             clearButton.Click += clearButton_Click;
             clearButton.Visible = true;
             this.Controls.Add(clearButton);

@@ -1,4 +1,4 @@
-﻿using GameOfLife.Domain.Interfaces;
+﻿using GameOfLife.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,8 @@ namespace GameOfLife.Domain.EventArgs
 {
     public class FieldProcessedEventArgs
     {
-        public IEnumerable<ICell> ChangedCells { get; private set; }
-        public FieldProcessedEventArgs(IEnumerable<ICell> changedCells)
+        public IEnumerable<Cell> ChangedCells { get; private set; }
+        public FieldProcessedEventArgs(IEnumerable<Cell> changedCells)
         {
             ChangedCells = changedCells;
         }
