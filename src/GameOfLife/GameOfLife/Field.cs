@@ -20,6 +20,8 @@ namespace GameOfLife
         private int n;
         private Processor processor;
         private Thread drawingThread;
+        private Button startButton;
+        private Button stopButton;
 
         public Field(int m, int n)
         {
@@ -83,7 +85,7 @@ namespace GameOfLife
 
         private void InitializeButtons()
         {
-            var startButton = new Button();
+            startButton = new Button();
             startButton.BackColor = Color.White;
             startButton.ForeColor = Color.Black;
             startButton.Text = "Start";
@@ -93,7 +95,7 @@ namespace GameOfLife
             startButton.Visible = true;
             this.Controls.Add(startButton);
 
-            var stopButton = new Button();
+            stopButton = new Button();
             stopButton.BackColor = Color.White;
             stopButton.ForeColor = Color.Black;
             stopButton.Text = "Stop";
@@ -125,6 +127,7 @@ namespace GameOfLife
         {
             if (drawingThread != null)
                 drawingThread.Abort();
+            startButton.Enabled = true;
         }
 
         private void startButton_Click(object sender, EventArgs e)
@@ -140,6 +143,7 @@ namespace GameOfLife
                 });
             drawingThread.IsBackground = true;
             drawingThread.Start();
+            startButton.Enabled = false;
         }
 
         private void processor_CellProcessed(object sender, Domain.EventArgs.CellProcessedEventArgs e)
