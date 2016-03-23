@@ -16,7 +16,7 @@ namespace GameOfLife
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Field(52,56));
+            Application.Run(new Field(30,30));
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using GameOfLife.Domain.Interfaces;
+﻿using GameOfLife.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace GameOfLife
         private delegate void ChangeColorDelegate();
         private ChangeColorDelegate changeColorDelegate;
 
-        public CellControl(ICell cell):base()
+        public CellControl(Cell cell):base()
         {
             this.changeColorDelegate = Rise;
             InitializeCell(cell.I, cell.J);

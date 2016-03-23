@@ -125,6 +125,11 @@ namespace GameOfLife
 
         private void stopButton_Click(object sender, EventArgs e)
         {
+            foreach (var item in cellControls)
+            {
+                item.Value.Enabled = true;
+            }
+
             if (drawingThread != null)
                 drawingThread.Abort();
             startButton.Enabled = true;
@@ -132,6 +137,11 @@ namespace GameOfLife
 
         private void startButton_Click(object sender, EventArgs e)
         {
+            foreach(var item in cellControls)
+            {
+                item.Value.Enabled = false;
+            }
+
             drawingThread = new Thread(
                 () =>
                 {
